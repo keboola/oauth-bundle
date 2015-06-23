@@ -33,3 +33,7 @@ keboola_o_auth_oauth_external2:
 keboola_o_auth_oauth_callback2:
     path: /auth20-callback
     defaults: { _controller: KeboolaOAuthBundle:V20:getOAuthCallback }
+
+keboola_o_auth_get_credentials:
+    path: /get/{api}/{id}
+    defaults: { _controller: KeboolaOAuthBundle:Credentials:get }

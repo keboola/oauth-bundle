@@ -20,7 +20,7 @@ class V20Controller extends OAuth20Controller
 	 */
 	protected $api;
 
-	protected $requiredParams = ['api', 'token'];
+	protected $requiredParams = ['api', 'token', 'id'];
 
 	protected function getConsumer($api)
 	{
@@ -91,6 +91,7 @@ class V20Controller extends OAuth20Controller
 		$conn = $this->getDoctrine()->getConnection('oauth_providers');
 
 		$conn->insert('credentials', [
+			'id' => $this->sessionBag->get('id'),
 			'api' => $this->api['id'],
 			'consumer_key' => $this->api['client_id'],
 			'oauth_version' => '2.0',
