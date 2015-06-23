@@ -52,7 +52,9 @@ CREATE TABLE `credentials` (
 	`consumer_key` VarChar( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, 
 	`data` Text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, 
 	`project` VarChar( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, 
-	`creator` VarChar( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+	`creator` VarChar( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, 
+	`id` VarChar( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+	 PRIMARY KEY ( `api`,`id`,`project` )
  )
 CHARACTER SET = utf8
 COLLATE = utf8_general_ci
