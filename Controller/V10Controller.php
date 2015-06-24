@@ -73,8 +73,8 @@ class V10Controller extends OAuth10Controller
 	protected function getAppParams()
 	{
 		return [
-			'client-id' => $this->api['consumer_key'],
-			'client-secret' => $this->api['consumer_secret']
+			'api-key' => $this->api['consumer_key'],
+			'api-secret' => $this->api['consumer_secret']
 		];
 	}
 
