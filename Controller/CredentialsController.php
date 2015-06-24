@@ -26,6 +26,8 @@ class CredentialsController extends ApiController
 
 		$content = Utils::json_decode($request->getContent());
 
+		// TODO makes consumer_secret available to anyone with a token, is that quite desirable?
+		// It's needed for OAuth 1.0 clients :-/
 		if (!empty($content->includeApiDetail)) {
 			$consumerTable = $creds['oauth_version'] == '2.0' ? 'consumers_v2' : 'consumers_v1';
 			$consumerColumn = $creds['oauth_version'] == '2.0' ? 'client_id' : 'consumer_key';
