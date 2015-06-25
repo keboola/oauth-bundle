@@ -1,35 +1,8 @@
 FORMAT: 1A
 HOST: http://syrup.keboola.com/oauth
 
-# oauth
-
-# Database structure
-
-The database should contain the following tables:
-## OAuth 1.0 consumers
-- cols:
-    - api identifier
-    - api friendly name (optional?)
-    - requestTokenUrl
-    - accessTokenUrl
-    - authenticateUrl - needs to contain the oauthToken in a parameter - use %%?
-    - consumerKey
-    - consumerSecret
-
-## OAuth 2.0 consumers
-- cols:
-    - api identifier
-    - api friendly name (optional?)
-    - tokenUrl
-    - oauthUrl - needs redirect URL (always the same here?), clientId, and optionally the security/session hash
-    - clientId
-    - clientSecret
-
-## User credentials
-- cols:
-    - OAuth version
-    - consumer link (name+consumer key?)
-    - JSON encoded credentials - result of the OAuth process, storing everything the API returns
+# OAuth Manager
+Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
 
 
 ## TODO
@@ -37,11 +10,18 @@ The database should contain the following tables:
 
 # Group API
 
-## Generate OAuth token for OAuth 1.0 applications [/auth10{?token,id,api}]
+## Generate OAuth token for OAuth 1.0 applications [/{version}{?token,id,api}]
 
 ### Generate token from a web form/UI [POST]
 
 + Parameters
+
+    + version: `oauth20` (enum[string], required) - OAuth version string
+
+        + Members
+            + `oauth10` - For OAuth 1.0
+            + `oauth20` - For OAuth 2.0
+
     + token = `` (required, string, `305-78945-rg48re4g86g48gwgr48e6`) ... Your KBC Token
 
     + id = `` (required, string, `main`) ... Credentials configuration identifier to be saved with the result
@@ -102,14 +82,16 @@ The database should contain the following tables:
 
 + Response 201 (application/json)
 
-    {
-      "status": "ok",
-      "access_token": "dsjioafhoiy832yt598y7895y",
-      "refresh_token": "kf98v0894u8j580jy8902xyjciurewc",
-      "token_type": "Bearer"
-    }
+        {
+          "status": "ok",
+          "access_token": "dsjioafhoiy832yt598y7895y",
+          "refresh_token": "kf98v0894u8j580jy8902xyjciurewc",
+          "token_type": "Bearer"
+        }
 
-## Retrieve credentials [/get/{api}/{id}]
+## Retrieve credentials [/credentials/{api}/{id}]
+
+### Get Credentials [GET]
 
 + Request (application/json)
 
@@ -139,11 +121,48 @@ The database should contain the following tables:
 
 + Response 201 (application/json)
 
-    {
-      "access_token": "dsjioafhoiy832yt598y7895y",
-      "refresh_token": "kf98v0894u8j580jy8902xyjciurewc",
-      "token_type": "Bearer"
-    }
+        {
+          "access_token": "dsjioafhoiy832yt598y7895y",
+          "refresh_token": "kf98v0894u8j580jy8902xyjciurewc",
+          "token_type": "Bearer"
+        }
+
+### Delete credentials [DELETE]
+
++ Request
+
+    + Headers
+
+            Accept: application/json
+            X-StorageApi-Token: Your-Sapi-Token
+
+
++ Response 204
+
+## List credentials [/credentials/{api}]
+
+### Get Credentials list for the project [GET]
+
++ Request
+
+    + Headers
+
+            Accept: application/json
+            X-StorageApi-Token: Your-Sapi-Token
+
++ Response 200 (application/json)
+
+        [
+            {
+                "oauth_version": "2.0",
+                "api": "wr-dropbox",
+                "consumer_key": "w51y7j30ovhe412",
+                "data": "{\"access_token\":\"FHGegoEF8RsAAAAAAAAFPZ3hoXdq7RS853uDJ_I4e6lOiEYpO9f83Aq7G99zguGL\",\"token_type\":\"bearer\",\"uid\":\"42586988\"}",
+                "project": "305",
+                "creator": "305-d7b20b752279fe0326f727c3aa30fb6e5c5f5863",
+                "id": "test"
+            }
+        ]
 
 ## Add API
 
