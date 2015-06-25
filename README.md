@@ -37,7 +37,7 @@ The database should contain the following tables:
 
 # Group API
 
-## Generate OAuth token [/oauth{?token,id,api}]
+## Generate OAuth token for OAuth 1.0 applications [/auth10{?token,id,api}]
 
 ### Generate token from a web form/UI [POST]
 
@@ -72,11 +72,11 @@ The database should contain the following tables:
                     "id": {
                         "type": "string",
                         "required": true
-                    }
+                    },
                     "token": {
                         "type": "string",
                         "required": true
-                    }
+                    },
                     "api": {
                         "type": "string",
                         "required": true
@@ -87,7 +87,8 @@ The database should contain the following tables:
 + Response 201 (application/json)
 
         {
-            "status": "ok"
+            "status": "ok",
+            "...": "(results from the API containing token etc)"
         }
 
 ### Generate token manually [GET]
@@ -108,7 +109,7 @@ The database should contain the following tables:
       "token_type": "Bearer"
     }
 
-## Retrieve credentials [/fetch{?token,api,id}]
+## Retrieve credentials [/get/{api}/{id}]
 
 + Request (application/json)
 
@@ -120,8 +121,7 @@ The database should contain the following tables:
     + Body
 
             {
-                "api": "yourApp",
-                "id": "main"
+                "includeApiDetail": 0
             }
 
     + Schema
@@ -130,13 +130,9 @@ The database should contain the following tables:
                 "type": "object",
                 "required": true,
                 "properties": {
-                    "id": {
-                        "type": "string",
-                        "required": true
-                    }
-                    "api": {
-                        "type": "string",
-                        "required": true
+                    "includeApiDetail": {
+                        "type": "bool",
+                        "required": false
                     }
                 }
             }
