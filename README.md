@@ -38,9 +38,15 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
             ------WebKitFormBoundaryC5GD12ZfR1D8yZIt--
 
             ------WebKitFormBoundaryC5GD12ZfR1D8yZIt
-            Content-Disposition: form-data; name="config"
+            Content-Disposition: form-data; name="id"
 
             main
+            ------WebKitFormBoundaryC5GD12ZfR1D8yZIt--
+
+            ------WebKitFormBoundaryC5GD12ZfR1D8yZIt
+            Content-Disposition: form-data; name="api"
+
+            yourApp
             ------WebKitFormBoundaryC5GD12ZfR1D8yZIt--
 
     + Schema
@@ -157,10 +163,10 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
                 "oauth_version": "2.0",
                 "api": "wr-dropbox",
                 "consumer_key": "w51y7j30ovhe412",
-                "data": "{\"access_token\":\"FHGegoEF8RsAAAAAAAAFPZ3hoXdq7RS853uDJ_I4e6lOiEYpO9f83Aq7G99zguGL\",\"token_type\":\"bearer\",\"uid\":\"42586988\"}",
+                "data": "{\"access_token\":\"fwg4w8g64rgew46g486w4g648wr4g8r4ew6g486w48g6w6\",\"token_type\":\"bearer\",\"uid\":\"42586988\"}",
                 "project": "305",
-                "creator": "305-d7b20b752279fe0326f727c3aa30fb6e5c5f5863",
-                "id": "test"
+                "id": "test",
+                "description": "Kachna's Dropbox"
             }
         ]
 

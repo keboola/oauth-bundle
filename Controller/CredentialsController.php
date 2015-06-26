@@ -11,7 +11,6 @@ use	Keboola\Utils\Utils;
 
 class CredentialsController extends ApiController
 {
-// TODO GET, DELETE
 	public function getAction($api, $id, Request $request)
 	{
 		$token = $this->storageApi->verifyToken();
@@ -21,7 +20,7 @@ class CredentialsController extends ApiController
 		 */
 		$conn = $this->getConnection();
 
-		$creds = $conn->fetchAssoc("SELECT `data`, `consumer_key`, `oauth_version` FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `id` = '{$id}' AND `api` = '{$api}'");
+		$creds = $conn->fetchAssoc("SELECT `data`, `description`, `consumer_key`, `oauth_version` FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `id` = '{$id}' AND `api` = '{$api}'");
 
 		if (empty($creds['data'])) {
 			throw new UserException("No data found for api: {$api} with id: {$id} in project {$token['owner']['name']}");
