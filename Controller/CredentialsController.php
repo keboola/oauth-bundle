@@ -76,7 +76,15 @@ class CredentialsController extends ApiController
 
 		$conn = $this->getConnection();
 
-		$result = $conn->fetchAll("SELECT * FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `api` = '{$api}'");
+		$result = $conn->fetchAll(
+			"SELECT
+				`data`,
+				`description`,
+				`id`
+			FROM `credentials`
+			WHERE `project` = '{$token['owner']['id']}'
+				AND `api` = '{$api}'"
+		);
 
 		return new JsonResponse($result, 200, [
 			"Content-Type" => "application/json",

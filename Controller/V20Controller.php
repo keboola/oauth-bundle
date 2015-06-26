@@ -97,7 +97,8 @@ class V20Controller extends OAuth20Controller
 			'oauth_version' => '2.0',
 			'project' => $token['owner']['id'],
 			'creator' => $token['token'],
-			'data' => json_encode($data)
+			'data' => json_encode($data),
+			'description' => $this->sessionBag->has('description') ? $this->sessionBag->get('description') : ""
 		]);
 	}
 }

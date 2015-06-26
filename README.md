@@ -28,6 +28,8 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
 
     + api = `` (required, string, `yourApp`) ... Identifier of the API
 
+    + description = `` (optional, string, `Someone's account`) ... Credentials description (eg. account name)
+
 + Request (multipart/form-data; boundary=----WebKitFormBoundaryC5GD12ZfR1D8yZIt)
     + Body
 
@@ -49,6 +51,12 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
             yourApp
             ------WebKitFormBoundaryC5GD12ZfR1D8yZIt--
 
+            ------WebKitFormBoundaryC5GD12ZfR1D8yZIt
+            Content-Disposition: form-data; name="description"
+
+            Credentials description (eg. account name)
+            ------WebKitFormBoundaryC5GD12ZfR1D8yZIt--
+
     + Schema
 
             {
@@ -66,6 +74,10 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
                     "api": {
                         "type": "string",
                         "required": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "required": false
                     }
                 }
             }
