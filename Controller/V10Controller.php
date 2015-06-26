@@ -99,7 +99,8 @@ class V10Controller extends OAuth10Controller
 			'oauth_version' => '1.0',
 			'project' => $token['owner']['id'],
 			'creator' => $token['token'],
-			'data' => json_encode($data)
+			'data' => json_encode($data),
+			'description' => $this->sessionBag->has('description') ? $this->sessionBag->get('description') : ""
 		]);
 	}
 }
