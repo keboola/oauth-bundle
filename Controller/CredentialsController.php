@@ -49,6 +49,10 @@ class CredentialsController extends ApiController
 	{
 		$token = $this->storageApi->verifyToken();
 
+		if (empty($token['admin'])) {
+			throw new UserException("Forbidden: Only project admin can delete existing credentials.");
+		}
+
 		$conn = $this->getConnection();
 
 		// A check for delete rights would come here..IF WE HAD ONE!
