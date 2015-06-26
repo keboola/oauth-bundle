@@ -90,15 +90,20 @@ class V20Controller extends OAuth20Controller
 		 */
 		$conn = $this->getDoctrine()->getConnection('oauth_providers');
 
-		$conn->insert('credentials', [
-			'id' => $this->sessionBag->get('id'),
-			'api' => $this->api['id'],
-			'consumer_key' => $this->api['client_id'],
-			'oauth_version' => '2.0',
-			'project' => $token['owner']['id'],
-			'creator' => $token['token'],
-			'data' => json_encode($data),
-			'description' => $this->sessionBag->has('description') ? $this->sessionBag->get('description') : ""
-		]);
+		try {
+			$conn->insert('credentials', [
+				'id' => $this->sessionBag->get('id'),
+				'api' => $this->api['id'],
+				'consumer_key' => $this->api['client_id'],
+				'oauth_version' => '2.0',
+				'project' => $token['owner']['id'],
+				'creator' => json_encode(['id' => $token['id'], 'description' => $token['description']]),
+				'data' => json_encode($data),
+				'description' => $this->sessionBag->has('description') ? $this->sessionBag->get('description') : ""
+			]);
+		} catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+			$id = $this->sessionBag->get('id');
+			throw new UserException("Credentials '{$id}' for api '{$this->api['id']}' already exist!");
+		}
 	}
 }

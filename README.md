@@ -10,7 +10,7 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
 
 # Group API
 
-## Generate OAuth token for OAuth 1.0 applications [/{version}{?token,id,api}]
+## Generate OAuth token for OAuth 1.0 applications [/{version}{?token,id,api,description}]
 
 ### Generate token from a web form/UI [POST]
 
@@ -140,9 +140,11 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
 + Response 201 (application/json)
 
         {
-          "access_token": "dsjioafhoiy832yt598y7895y",
-          "refresh_token": "kf98v0894u8j580jy8902xyjciurewc",
-          "token_type": "Bearer"
+          "data": "{\"access_token\":\"gg486w4g8wr46g48r4w86g468rw486g4-g1w23gwgw\",\"token_type\":\"bearer\",\"uid\":\"654987312\"}",
+          "description": "test",
+          "consumer_key": "f1f86w1f6w8efw",
+          "oauth_version": "2.0",
+          "creator": "{\"id\":\"321\",\"description\":\"kachnuela@example.com\"}"
         }
 
 ### Delete credentials [DELETE]
@@ -171,15 +173,12 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
 + Response 200 (application/json)
 
         [
-            {
-                "oauth_version": "2.0",
-                "api": "wr-dropbox",
-                "consumer_key": "w51y7j30ovhe412",
-                "data": "{\"access_token\":\"fwg4w8g64rgew46g486w4g648wr4g8r4ew6g486w48g6w6\",\"token_type\":\"bearer\",\"uid\":\"42586988\"}",
-                "project": "305",
-                "id": "test",
-                "description": "Kachna's Dropbox"
-            }
+          {
+            "data": "{\"access_token\":\"g4r8w6g48rw4g8w46g8w4g4re4g6ew4g8r64wgw-eg4w86ggwgg\",\"token_type\":\"bearer\",\"uid\":\"456789123\"}",
+            "description": "test",
+            "id": "test",
+            "creator": "{\"id\":\"321\",\"description\":\"kachnuela@example.com\"}"
+          }
         ]
 
 ## Add API

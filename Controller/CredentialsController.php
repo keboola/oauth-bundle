@@ -20,7 +20,7 @@ class CredentialsController extends ApiController
 		 */
 		$conn = $this->getConnection();
 
-		$creds = $conn->fetchAssoc("SELECT `data`, `description`, `consumer_key`, `oauth_version` FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `id` = '{$id}' AND `api` = '{$api}'");
+		$creds = $conn->fetchAssoc("SELECT `data`, `description`, `consumer_key`, `oauth_version`, `creator` FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `id` = '{$id}' AND `api` = '{$api}'");
 
 		if (empty($creds['data'])) {
 			throw new UserException("No data found for api: {$api} with id: {$id} in project {$token['owner']['name']}");
@@ -38,7 +38,7 @@ class CredentialsController extends ApiController
 // 			$data->apiDetail = $apiDetail;
 // 			$creds['data'] = json_encode($data);
 // 		}
-		return new Response($creds['data'], 200, [
+		return new JsonResponse($creds, 200, [
 			"Content-Type" => "application/json",
 			"Access-Control-Allow-Origin" => "*",
 			"Connection" => "close"
@@ -80,7 +80,8 @@ class CredentialsController extends ApiController
 			"SELECT
 				`data`,
 				`description`,
-				`id`
+				`id`,
+				`creator`
 			FROM `credentials`
 			WHERE `project` = '{$token['owner']['id']}'
 				AND `api` = '{$api}'"
