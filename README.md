@@ -16,11 +16,11 @@ Create and manage Credentials for API resources utilizing OAuth 1.0 and 2.0
 
 + Parameters
 
-    + version: `oauth20` (enum[string], required) - OAuth version string
+    + version: `auth20` (enum[string], required) - OAuth version string
 
         + Members
-            + `oauth10` - For OAuth 1.0
-            + `oauth20` - For OAuth 2.0
+            + `auth10` - For OAuth 1.0
+            + `auth20` - For OAuth 2.0
 
     + token = `` (required, string, `305-78945-rg48re4g86g48gwgr48e6`) ... Your KBC Token
 
