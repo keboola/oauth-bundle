@@ -9,7 +9,7 @@ use	Symfony\Component\HttpFoundation\Response,
 	Symfony\Component\HttpFoundation\Request;
 use	Keboola\Utils\Utils;
 
-class CredentialsController extends ApiController
+class ManageController extends ApiController
 {
 	public function getAction($api, $id, Request $request)
 	{
@@ -20,7 +20,7 @@ class CredentialsController extends ApiController
 		 */
 		$conn = $this->getConnection();
 
-		$creds = $conn->fetchAssoc("SELECT `data`, `description`, `consumer_key`, `oauth_version`, `creator` FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `id` = :id AND :api = '{$api}'", ['id' => $id, 'api' => $api]);
+		$creds = $conn->fetchAssoc("SELECT `data`, `description`, `consumer_key`, `oauth_version`, `creator` FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `id` = '{$id}' AND `api` = :api", ['api' => $api]);
 
 		if (empty($creds['data'])) {
 			throw new UserException("No data found for api: {$api} with id: {$id} in project {$token['owner']['name']}");
@@ -74,29 +74,49 @@ class CredentialsController extends ApiController
 		}
 	}
 
-	public function listAction($api)
+	/**
+	 *
+	 */
+	public function listAction()
 	{
 		$token = $this->storageApi->verifyToken();
 
 		$conn = $this->getConnection();
 
-		$result = $conn->fetchAll(
-			"SELECT
-				`data`,
-				`description`,
-				`id`,
-				`creator`
-			FROM `credentials`
-			WHERE `project` = '{$token['owner']['id']}'
-				AND `api` = :api",
-			['api' => $api]
-		);
+		$v1 = $this->getConsumers(1);
+		$v2 = $this->getConsumers(2);
 
-		return new JsonResponse($result, 200, [
+		$consumers = [];
+		foreach($v1 as $consumer) {
+			$consumers[] = [
+				'id' => $consumer['id'],
+				'friendly_name' => $consumer['friendly_name'],
+				'client' => $consumer['consumer_key'],
+				'oauth_version' => '1.0'
+			];
+		}
+
+		foreach($v2 as $consumer) {
+			$consumers[] = [
+				'id' => $consumer['id'],
+				'friendly_name' => $consumer['friendly_name'],
+				'client' => $consumer['client_id'],
+				'oauth_version' => '2.0'
+			];
+		}
+
+		return new JsonResponse($consumers, 200, [
 			"Content-Type" => "application/json",
 			"Access-Control-Allow-Origin" => "*",
 			"Connection" => "close"
 		]);
+	}
+
+	protected function getConsumers($oauthVersion)
+	{
+		$table = $oauthVersion == 1 ? 'consumers_v1' : 'consumers_v2';
+
+		return $this->getConnection()->fetchAll("SELECT * FROM `{$table}`");
 	}
 
 	/**
@@ -105,5 +125,18 @@ class CredentialsController extends ApiController
 	protected function getConnection()
 	{
 		return $this->getDoctrine()->getConnection('oauth_providers');
+	}
+
+	protected function verifyAdmin()
+	{
+		$token = $this->storageApi->verifyToken();
+
+		$allowedOrgs = (array) $this->getParameter('manager_organizations');
+
+		if (!in_array($token['organization']['id'], $allowedOrgs) || !$token['canManageTokens']) {
+			throw new UserException("Only authorized Keboola Developers can manage consumer settings!");
+		}
+
+		return $token;
 	}
 }

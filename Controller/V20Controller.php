@@ -29,7 +29,7 @@ class V20Controller extends OAuth20Controller
 		*/
 		$conn = $this->getDoctrine()->getConnection('oauth_providers');
 
-		$consumer = $conn->fetchAssoc("SELECT * FROM `consumers_v2` WHERE `id` = '{$api}'");
+		$consumer = $conn->fetchAssoc("SELECT * FROM `consumers_v2` WHERE `id` = :api", ['api' => $api]);
 		if (empty($consumer)) {
 			throw new UserException("Api '{$api}' details not found in the OAuth 2.0 consumer database");
 		}

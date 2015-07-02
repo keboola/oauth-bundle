@@ -46,7 +46,7 @@ class V10Controller extends OAuth10Controller
 		*/
 		$conn = $this->getDoctrine()->getConnection('oauth_providers');
 
-		$consumer = $conn->fetchAssoc("SELECT * FROM `consumers_v1` WHERE `id` = '{$api}'");
+		$consumer = $conn->fetchAssoc("SELECT * FROM `consumers_v1` WHERE `id` = :api", ['api' => $api]);
 		if (empty($consumer)) {
 			throw new UserException("Api '{$api}' details not found in the OAuth 1.0 consumer database");
 		}
