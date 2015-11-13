@@ -20,7 +20,7 @@ class CredentialsController extends ApiController
 		 */
 		$conn = $this->getConnection();
 
-		$creds = $conn->fetchAssoc("SELECT `data`, `description`, `consumer_key`, `oauth_version`, `creator` FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `id` = :id AND :api = '{$api}'", ['id' => $id, 'api' => $api]);
+		$creds = $conn->fetchAssoc("SELECT `data`, `description`, `consumer_key`, `oauth_version`, `creator` FROM `credentials` WHERE `project` = '{$token['owner']['id']}' AND `id` = :id AND `api` = :api", ['id' => $id, 'api' => $api]);
 
 		if (empty($creds['data'])) {
 			throw new UserException("No data found for api: {$api} with id: {$id} in project {$token['owner']['name']}");
