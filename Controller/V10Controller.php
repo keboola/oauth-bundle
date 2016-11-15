@@ -22,6 +22,13 @@ class V10Controller extends OAuth10Controller
 
 	protected $requiredParams = ['api', 'token', 'id'];
 
+
+    public function preExecute(Request $request)
+    {
+        parent::preExecute($request);
+        Request::setTrustedProxies(array($request->server->get('REMOTE_ADDR')));
+    }
+
 	protected function getAuthenticateUrl($oauthToken)
 	{
 		$url = $this->api['authenticate_url'];

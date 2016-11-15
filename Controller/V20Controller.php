@@ -22,6 +22,12 @@ class V20Controller extends OAuth20Controller
 
 	protected $requiredParams = ['api', 'token', 'id'];
 
+    public function preExecute(Request $request)
+    {
+        parent::preExecute($request);
+        Request::setTrustedProxies(array($request->server->get('REMOTE_ADDR')));
+    }
+
 	protected function getConsumer($api)
 	{
 		/**
